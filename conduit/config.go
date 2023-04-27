@@ -23,4 +23,5 @@ var DefaultMetricsPrefix = "conduit"
 type Args struct {
 	ConduitDataDir    string `yaml:"data-dir"`
 	NextRoundOverride uint64 `yaml:"next-round-override"`
+	MaxRound          uint64 `yaml:"max-round"`
 }

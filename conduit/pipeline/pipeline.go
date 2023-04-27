@@ -464,6 +464,10 @@ func (p *pipelineImpl) Start() {
 					if err != nil {
 						p.logger.Errorf("%v", err)
 					}
+					if p.pipelineMetadata.NextRound == p.cfg.ConduitArgs.MaxRound+1 {
+						p.logger.Infof("Pipeline has reached maximum round (%d) - stopping...", p.pipelineMetadata.NextRound-1)
+						return
+					}
 
 					// Callback Processors
 					for _, cb := range p.completeCallback {

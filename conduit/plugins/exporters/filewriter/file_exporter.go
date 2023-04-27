@@ -75,7 +75,7 @@ func (exp *fileExporter) Config() string {
 }
 
 func (exp *fileExporter) Close() error {
-	exp.logger.Infof("latest round on file: %d", exp.round)
+	exp.logger.Infof("latest round on file: %d", exp.round-1)
 	return nil
 }
 
