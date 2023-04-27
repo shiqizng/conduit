@@ -1,29 +1,19 @@
 # Generated conduit configuration file.
-#log-level: INFO
 hide-banner: true
-log-level: "warn"
-log-file: /data/conduit/archiver/conduit.log
+log-level: "INFO"
+log-file: ./data/conduit.log
 
 # The importer is typically an algod archival instance.
 importer:
     name: algod
     config:
-      #netaddr: "https://node-archival-testnet.internal.aws.algodev.network"
-        #token: "9XxlZqyx27XDrFvV0JU1EVuxRzXJU96Peo07bK0oqslfBeNZdBHXab53D2eui72ib"
-        netaddr: "localhost:4001"
-        token: "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+        mode: archival
+#        netaddr: "localhost:4001"
+#        token: "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
 
 # One or more processors may be defined to manipulate what data
 # reaches the exporter.
 processors:
-        - name: "block_evaluator"
-          config:
-            #indexer-data-dir: "/data/conduit/archiver/localledger"
-                    algod-addr: "localhost:4001"
-                    algod-token: "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
-                    #algod-addr: "https://node-archival-testnet.internal.aws.algodev.network"
-                    #algod-token: "9XxlZqyx27XDrFvV0JU1EVuxRzXJU96Peo07bK0oqslfBeNZdBHXab53D2eui72ib"
-                    #catchpoint: "24110000#ZLIFO67KLBCVTHZVCN2KWSFEBYHG3VPVCTUPX75BD2USETT5GW5A"
 
 # An exporter is defined to do something with the data.
 # Here the filewriter is defined which writes the raw block
@@ -32,7 +22,17 @@ processors:
 #    name: filewriter
 #    config:
 #        block-dir: "/data/conduit/archiver/blocks"
+
 exporter:
-    name: postgresql
+    name: "file_writer"
     config:
-        connection-string: "host=127.0.0.1 port=5555 user=pguser password=pgpass dbname=indexer"
+        # BlocksDir is the path to a directory where block data should be stored.
+        # The directory is created if it doesn't exist.
+        block-dir: "./data/blocks"
+        # FilenamePattern is the format used to write block files. It uses go
+        # string formatting and should accept one number for the round.
+        # If the file has a '.gz' extension, blocks will be gzipped.
+        # Default: "%[1]d_block.json"
+        filename-pattern: "%[1]d_block.json"
+        # DropCertificate is used to remove the vote certificate from the block data before writing files.
+        drop-certificate: true

@@ -120,6 +120,7 @@ func makeConduitCmd() *cobra.Command {
 	}
 	cmd.Flags().StringVarP(&cfg.ConduitDataDir, "data-dir", "d", "", "set the data directory for the conduit binary")
 	cmd.Flags().Uint64VarP(&cfg.NextRoundOverride, "next-round-override", "r", 0, "set the starting round. Overrides next-round in metadata.json")
+	cmd.Flags().Uint64VarP(&cfg.MaxRound, "max-round", "m", 500, "set the max round. pipeline will stop after reaching this round")
 	cmd.Flags().BoolVarP(&vFlag, "version", "v", false, "print the conduit version")
 
 	return cmd
